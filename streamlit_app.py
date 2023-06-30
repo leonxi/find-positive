@@ -131,6 +131,10 @@ for i in range(found):
 
     thresh = st.slider("二值化阈值", 0, 255, 100, step=1, key=i+100)
     maxval = st.slider("二值化最大值", 0, 255, 120, step=1, key=i+200)
-    binary = ImgUtils.get_positive(rotated_canvas, thresh, maxval)
+    binary = ImgUtils.get_positive(rotated_canvas.copy(), thresh, maxval)
     to_binary = Image.fromarray(cv.cvtColor(binary, cv.COLOR_BGR2RGB))
     st.image(to_binary)
+    features, points, describes = ImgUtils.findFeatures(rotated_canvas.copy())
+    to_features = Image.fromarray(cv.cvtColor(features, cv.COLOR_BGR2RGB))
+    st.image(to_features)
+
