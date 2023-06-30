@@ -134,7 +134,15 @@ for i in range(found):
     binary = ImgUtils.get_positive(rotated_canvas.copy(), thresh, maxval)
     to_binary = Image.fromarray(cv.cvtColor(binary, cv.COLOR_BGR2RGB))
     st.image(to_binary)
-    features, points, describes = ImgUtils.findFeatures(rotated_canvas.copy())
-    to_features = Image.fromarray(cv.cvtColor(features, cv.COLOR_BGR2RGB))
-    st.image(to_features)
+    
+    # 腐蚀参数
+    erode_kernel_sizex = st.slider("腐蚀核尺寸 (x)", 3, 255, 3, step=1, key=i+300)
+    erode_kernel_sizey = st.slider("腐蚀核尺寸 (y)", 3, 255, 3, step=1, key=i+400)
 
+    # 膨胀参数
+    dilate_kernel_sizex = st.slider("膨胀核尺寸 (x)", 3, 255, 3, step=1, key=i+500)
+    dilate_kernel_sizey = st.slider("膨胀核尺寸 (y)", 3, 255, 160, step=1, key=i+600)
+
+    filter = ImgUtils.dilate_erode(rotated_canvas.copy(), (dilate_kernel_sizex, dilate_kernel_sizey), (erode_kernel_sizex, erode_kernel_sizey))
+    to_filter = Image.fromarray(cv.cvtColor(filter, cv.COLOR_BGR2RGB))
+    st.image(to_filter)
